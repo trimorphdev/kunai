@@ -3,8 +3,12 @@
 
 #  if defined(_WIN32)
 #    define PATH_SEPARATOR "\\"
+#    include <direct.h>
+#    define __getCwd _getcwd
 #  else
 #    define PATH_SEPARATOR "/"
+#    include <unistd.h>
+#    define __getCwd getcwd
 #  endif
 
 #  include <vector>
@@ -13,9 +17,16 @@
 #  include <iostream>
 
 namespace path {
+  std::string getCwd() {
+    char buff[FILENAME_MAX]; //create string buffer to hold path
+    __getCwd(buff, FILENAME_MAX);
+    std::string cwd(buff);
+    return cwd;
+  }
+
   std::string beautify(std::string path) {
     if (PATH_SEPARATOR == "\\") {
-      size_t pos;
+      int pos;
       while ((pos = path.find("/")) != std::string::npos) {
         path.replace(pos, 1, "\\");
       }
@@ -38,8 +49,8 @@ namespace path {
     }
 
     int subLen = 0;
+    int lastMatchLen = 0;
     for(int i = 0; i < pathParts.size(); i++) {
-      std::cout << pathParts[i] << "\n";
       if (pathParts[i] != "..") {
         if (newPath[newPath.length() - 1] != PATH_SEPARATOR[0] && i != 0) newPath += "\\";
         if (i == pathParts.size() - 1) {
@@ -48,9 +59,11 @@ namespace path {
           newPath += pathParts[i] + PATH_SEPARATOR;
         }
       } else {
-        newPath = newPath.substr(0, subLen);
+        newPath = newPath.substr(0, subLen - lastMatchLen);
+        subLen = newPath.length() - 1;
         continue;
       }
+      lastMatchLen = pathParts[i].length();
       subLen = newPath.length() - 1;
     }
 
