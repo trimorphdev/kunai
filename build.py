@@ -20,7 +20,7 @@ oFiles = []
 for file in files:
   oFile = 'bin/' + (file[0:file.rindex('.')] + '.o').split(pathSeperator).pop()
   oFiles.append(oFile)
-  cmd = "g++ -I include -c " + file + " -o " + oFile
+  cmd = "g++ -I include -c " + file.replace('\\', '/') + " -o " + oFile
   print(" $ " + cmd)
   os.system(cmd)
 
