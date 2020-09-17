@@ -1,0 +1,3 @@
+#ifndef KUNAI_KUNAI_HEADER
+#  define KUNAI_KUNAI_HEADER
+#endif // #ifndef KUNAI_KUNAI_HEADER

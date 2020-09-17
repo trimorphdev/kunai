@@ -20,8 +20,11 @@ oFiles = []
 for file in files:
   oFile = 'bin/' + (file[0:file.rindex('.')] + '.o').split(pathSeperator).pop()
   oFiles.append(oFile)
-  os.system("g++ -c " + file + " -o " + oFile)
+  cmd = "g++ -I include -c " + file + " -o " + oFile
+  print(" $ " + cmd)
+  os.system(cmd)
 
+print(" $ g++ " + " ".join(oFiles) + " -o bin/kunai")
 os.system("g++ " + " ".join(oFiles) + " -o bin/kunai")
 
 for file in oFiles:
