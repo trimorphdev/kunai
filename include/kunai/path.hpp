@@ -15,6 +15,7 @@
 #  include <string>
 #  include <cstring>
 #  include <iostream>
+#  include <algorithm>
 
 namespace path {
   std::string getCwd() {
@@ -26,10 +27,7 @@ namespace path {
 
   std::string beautify(std::string path) {
     if (PATH_SEPARATOR == "\\") {
-      int pos;
-      while ((pos = path.find("/")) != std::string::npos) {
-        path.replace(pos, 1, "\\");
-      }
+      std::replace(path.begin(), path.end(), '/', '\\');
     }
     
     std::vector<std::string> pathParts;
