@@ -18,7 +18,7 @@
 
 namespace path {
   std::string getCwd() {
-    char buff[FILENAME_MAX]; //create string buffer to hold path
+    char buff[FILENAME_MAX];
     __getCwd(buff, FILENAME_MAX);
     std::string cwd(buff);
     return cwd;
